@@ -61,9 +61,13 @@ function __update($db, &$response) {
  */
 function __regist($db, &$response) {
 	$response['error_msg'] = array();
+	if (isset($_POST['name'])){
+	    $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+	}
 	if (!isset($_POST['name'])) {
 		$response['error_msg'][] = '商品名を指定してください。';
-	} else if (mb_strlen($_POST['name']) < 3 || mb_strlen($_POST['name']) > 100) {
+	}
+	if (mb_strlen($name) < 3 || mb_strlen($name) > 100) {
 		$response['error_msg'][] = '商品名は３文字以上、100文字以内で入力してください。';
 	}
 	if (!isset($_FILES['img']['tmp_name'])) {
@@ -88,7 +92,7 @@ function __regist($db, &$response) {
 		return;
 	}
 
-	if (item_regist($db, $_POST['name'], $save_name, $_POST['price'], $_POST['stock'],
+	if (item_regist($db, $name, $save_name, $_POST['price'], $_POST['stock'],
 			$_POST['status'])) {
 		$response['result_msg'] = '商品を登録しました。';
 		return;
