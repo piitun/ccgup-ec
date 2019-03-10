@@ -12,11 +12,21 @@ function db_connect() {
 	$dsn = 'mysql:charset=utf8;dbname=' . DB_NAME . ';host=' . DB_HOST;
 
 	try {
+	    $db = new PDO(
+	        $dsn, DB_USER, DB_PASS,
+	        array(PDO::ATTR_EMULATE_PREPARES => false,
+	               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+	    //$db->exec("SET NAMES 'UTF8'");
+	} catch (PDOException $e) {
+	    die('db error: ' . $e->getMessage());
+	}
+
+	/*try {
 		$db = new PDO($dsn, DB_USER, DB_PASS);
 		$db->exec("SET NAMES 'UTF8'");
 	} catch (PDOException $e) {
 		die('db error: ' . $e->getMessage());
-	}
+	}*/
 
 	return $db;
 }
@@ -28,13 +38,14 @@ function db_connect() {
  * @return array
  */
 function db_select(PDO $db, $sql) {
-	$result = $db->query($sql);
+    $result = $db->query($sql);
 	if ($result->rowCount() === 0) {
 		return array();
 	}
 	$rows = $result->fetchAll(PDO::FETCH_ASSOC);
 	return $rows;
 }
+
 
 /**
  * @param PDO $db

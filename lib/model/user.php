@@ -12,12 +12,30 @@
  * @return NULL|array
  */
 function user_get_login($db, $login_id, $password) {
-	$sql = <<<EOD
+	$stmt = $db->prepare('SELECT id, login_id, password, is_admin, create_date, update_date
+                        FROM users
+                        WHERE login_id = ? AND password = ?');
+	$stmt->bindValue(1,$login_id,PDO::PARAM_STR);
+	$stmt->bindValue(2,sha1($password),PDO::PARAM_STR);
+	$stmt->execute();
+	if ($stmt->rowCount() === 0) {
+	    return array();
+	}
+	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	//return $rows;
+	if (empty($rows)) {
+	    return null;
+	}
+	return $rows[0];
+
+
+
+	/* $sql = <<<EOD
  SELECT id, login_id, password, is_admin, create_date, update_date
  FROM users
  WHERE login_id = '{$login_id}' AND password = sha1('{$password}')
-EOD;
-	return db_select_one($db, $sql);
+EOD;*/
+	//return db_select_one($db, $sql);
 }
 
 /**
@@ -26,11 +44,23 @@ EOD;
  * @return NULL|array
  */
 function user_get($db, $id) {
-	$sql = <<<EOD
+    $stmt = $db->prepare('SELECT id, login_id, password, is_admin, create_date, update_date
+                            FROM users
+                            WHERE id = ?');
+    $stmt->bindValue(1,$id,PDO::PARAM_STR);
+    $stmt->execute();
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    //return $rows;
+    if (empty($rows)) {
+        return null;
+    }
+    return $rows[0];
+
+    /*$sql = <<<EOD
  SELECT id, login_id, password, is_admin, create_date, update_date
  FROM users
  WHERE id = {$id}
-EOD;
+EOD;*/
 
-	return db_select_one($db, $sql);
+	//return db_select_one($db, $sql);
 }

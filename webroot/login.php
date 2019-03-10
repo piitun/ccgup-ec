@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 /**
  * @license CC BY-NC-SA 4.0
  * @license https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ja
