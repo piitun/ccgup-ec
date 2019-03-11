@@ -62,7 +62,8 @@ function __update($db, &$response) {
 function __regist($db, &$response) {
 	$response['error_msg'] = array();
 	if (isset($_POST['name'])){
-	    $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+	    //$name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+	    $name = $_POST['name'];
 	}
 	if (!isset($_POST['name'])) {
 		$response['error_msg'][] = '商品名を指定してください。';

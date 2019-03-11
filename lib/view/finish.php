@@ -48,7 +48,8 @@
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
 							<td rowspan="2"><img class="w-100"
 								src="<?php echo DIR_IMG . $value['img']; ?>"></td>
-							<td colspan="3"><?php echo $value['name']?></td>
+								<td colspan="3"><?php echo(htmlspecialchars($value['name'], ENT_QUOTES, 'UTF-8'))?></td>
+							<!-- <td colspan="3"><//?php echo $value['name']?></td> -->
 						</tr>
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
 							<td><?php echo number_format($value['price'])?>円</td>

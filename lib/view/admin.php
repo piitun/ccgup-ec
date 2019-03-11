@@ -105,7 +105,8 @@
 									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ('1' !== $item['status']) ? 'disable' : '' ; ?>">
 									<td rowspan="2"><img class="w-100"
 										src="<?php echo DIR_IMG . $item['img']; ?>"></td>
-									<td><?php echo $item['name']?></td>
+										<td><?php echo (htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'))?></td>
+									<!--<td><//?php echo $item['name']?></td>-->
 									<td><?php echo number_format($item['price'])?>円</td>
 									<td>
 										<form method="post">
