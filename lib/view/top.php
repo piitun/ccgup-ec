@@ -38,6 +38,8 @@
 							<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
 								<input type="hidden" name="id"
 									value="<?php echo $value['id']; ?>">
+								<input type="hidden" name="token"
+									value="<?php echo $_SESSION['token']; ?>">
 								<button type="submit" class="btn btn-primary cart-btn">カートに入れる</button>
 							</form>
 <?php } else { ?>

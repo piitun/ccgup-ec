@@ -29,10 +29,13 @@ require_once DIR_MODEL . 'cart.php';
 	require_once DIR_VIEW . 'cart.php';
 }
 
+
 /**
  * @param PDO $db
  * @param array $response
  */
+
+
 function __update($db, &$response) {
 	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 		return;

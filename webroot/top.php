@@ -12,6 +12,7 @@ require_once DIR_MODEL . 'item.php';
 
 {
 	session_start();
+	make_token();
 
 	$db = db_connect();
 	$response = array();
@@ -20,6 +21,18 @@ require_once DIR_MODEL . 'item.php';
 	$response['items'] = item_list($db);
 
 	require_once DIR_VIEW  . 'top.php';
+}
+
+/**
+ * getアクセス時のみtokenを発行してsessionに保存
+ */
+function make_token() {
+    if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+        return;
+    }
+
+    $token = sha1(uniqid(mt_rand(), true));
+    $_SESSION['token'] = $token;
 }
 
 /**
@@ -37,10 +50,13 @@ function __regist($db, &$response) {
 		$response['error_msg'] = '商品の指定が不適切です。';
 		return;
 	}
-
+	if (isset($_POST['token'])&& $_POST["token"] === $_SESSION['token']) {
 	if (cart_regist($db, $_SESSION['user']['id'], $_POST['id'])) {
 		$response['result_msg'] = 'カートに登録しました。';
 		return;
+	}
+	}else{
+	    $response['error_msg'] = '不正なアクセスです。';
 	}
 
 	$response['error_msg'] = 'カート登録に失敗しました。';
