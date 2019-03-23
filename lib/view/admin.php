@@ -113,7 +113,7 @@
 											<input type="hidden" name="id"
 												value="<?php echo $item['id']; ?>"> <input
 												type="hidden" name="action" value="update_status">
-<?php if ($item['status'] === '1') { ?>
+<?php if ($item['status'] === 1) { ?>
 											<button type="submit" class="btn btn-success">公開 → 非公開にする</button>
 											<input type="hidden" name="status" value="0">
 <?php } else { ?>

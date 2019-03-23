@@ -27,8 +27,8 @@ try {
 	in_order_histories($db, $user_id);
 	$last_id = last_insert_id($db);
 	$last_id = $last_id[0]["MAX(order_history_id)"];
+
 	foreach($response["cart_items"] as $item){
-	    //$db->beginTransaction();
 	    try{
 	        if($item['stock'] !== 0 && $item['status'] === 1 && $item['stock'] >= $item['amount']){
 	            $name = $item['name'];

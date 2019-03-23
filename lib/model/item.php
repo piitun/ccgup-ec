@@ -128,21 +128,13 @@ function item_update_saled($db, $id, $amount) {
 }
 
 
-function item_update_status($db, $id, $status) {
-    $sql = <<<EOD
- UPDATE items
- SET status = {$status}, update_date = NOW()
- WHERE id = {$id}
-EOD;
-    return db_update($db, $sql);
-}
 /**
  *
  * @param PDO $db
  * @param array $cart_items
  * @return boolean
  */
-/*function item_update_status($db, $id, $status) {
+function item_update_status($db, $id, $status) {
     $stmt = $db->prepare(
 'UPDATE items
  SET status = ?, update_date = NOW()
@@ -154,7 +146,7 @@ EOD;
     if ($stmt->rowCount() === 0) {
         return false;
     }
-}*/
+}
 
 /**
  * @param string $status
