@@ -28,7 +28,7 @@
 
 <?php require DIR_VIEW_ELEMENT . 'output_message.php'; ?>
 
-<?php if ( !empty($response['cart_items'])) { ?>
+<?php if ( !empty($response["cart_items"])) { ?>
 		<div class="col-xs-12 col-md-10 offset-md-1 cart-list">
 			<div class="row">
 				<table class="table">
@@ -44,7 +44,7 @@
 						</tr>
 					</thead>
 					<tbody>
-<?php foreach ( $response['cart_items'] as $key => $value ) {?>
+<?php foreach ( $response["cart_items"] as $key => $value ) {?>
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
 							<td rowspan="2"><img class="w-100"
 								src="<?php echo DIR_IMG . $value['img']; ?>"></td>
@@ -64,7 +64,7 @@
 							<td></td>
 							<td colspan="2">
 								<div>
-									<span>合計</span> <span><?php echo number_format($response['total_price']); ?>円</span>
+									<span>合計</span> <span><?php echo number_format($sum); ?>円</span>
 								</div>
 							</td>
 						</tr>
