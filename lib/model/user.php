@@ -22,20 +22,10 @@ function user_get_login($db, $login_id, $password) {
 	    return array();
 	}
 	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	//return $rows;
 	if (empty($rows)) {
 	    return null;
 	}
 	return $rows[0];
-
-
-
-	/* $sql = <<<EOD
- SELECT id, login_id, password, is_admin, create_date, update_date
- FROM users
- WHERE login_id = '{$login_id}' AND password = sha1('{$password}')
-EOD;*/
-	//return db_select_one($db, $sql);
 }
 
 /**
@@ -56,11 +46,4 @@ function user_get($db, $id) {
     }
     return $rows[0];
 
-    /*$sql = <<<EOD
- SELECT id, login_id, password, is_admin, create_date, update_date
- FROM users
- WHERE id = {$id}
-EOD;*/
-
-	//return db_select_one($db, $sql);
 }

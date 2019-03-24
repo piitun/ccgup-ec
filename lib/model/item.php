@@ -15,11 +15,21 @@
  * @return number
  */
 function item_regist($db, $name, $img, $price, $stock, $status) {
-	$sql = <<<EOD
-INSERT INTO items (name, img, price, stock, status, create_date, update_date)
- VALUES ('{$name}', '{$img}', '{$price}', '{$stock}', '{$status}', NOW(), NOW());
-EOD;
-	return db_update($db, $sql);
+
+    $stmt = $db->prepare(
+'INSERT INTO items (name, img, price, stock, status, create_date, update_date)
+ VALUES (?,?,?,?,?,NOW(), NOW())');
+
+    $stmt->bindValue(1,$name,PDO::PARAM_STR);
+    $stmt->bindValue(2,$img,PDO::PARAM_STR);
+    $stmt->bindValue(3,$price,PDO::PARAM_INT);
+    $stmt->bindValue(4,$stock,PDO::PARAM_INT);
+    $stmt->bindValue(5,$status,PDO::PARAM_INT);
+
+    return $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return false;
+    }
 }
 
 /**
@@ -33,8 +43,15 @@ function item_delete($db, $id) {
 	if (!empty($row)) {
 		@unlink(DIR_IMG_FULL . $row['img']);
 	}
-	$sql = 'DELETE FROM items WHERE id = ' . $id;
-	return db_update($db, $sql);
+	$stmt = $db->prepare(
+	'DELETE FROM items WHERE id = ?');
+	$stmt->bindValue(1,$id,PDO::PARAM_STR);
+
+	return $stmt->execute();
+	if ($stmt->rowCount() === 0) {
+	    return false;
+	}
+
 }
 
 /**
@@ -76,12 +93,18 @@ EOD;
  * @return boolean
  */
 function item_update_stock($db, $id, $stock) {
-	$sql = <<<EOD
- UPDATE items
- SET stock = {$stock}, update_date = NOW()
- WHERE id = {$id}
-EOD;
-	return db_update($db, $sql);
+    $stmt = $db->prepare(
+ 'UPDATE items
+ SET stock = ?, update_date = NOW()
+ WHERE id = ?');
+    $stmt->bindValue(1,$stock,PDO::PARAM_STR);
+    $stmt->bindValue(2,$id,PDO::PARAM_STR);
+
+    return $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return false;
+    }
+
 }
 
 /**
@@ -91,13 +114,19 @@ EOD;
  * @return boolean
  */
 function item_update_saled($db, $id, $amount) {
-	$sql = <<<EOD
- UPDATE items
- SET stock = stock - {$amount}, update_date = NOW()
- WHERE id = {$id}
-EOD;
-	return db_update($db, $sql);
+    $stmt = $db->prepare(
+ 'UPDATE items
+ SET stock = stock - ?, update_date = NOW()
+ WHERE id = ?');
+    $stmt->bindValue(1,$amount,PDO::PARAM_STR);
+    $stmt->bindValue(2,$id,PDO::PARAM_STR);
+
+    return $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return false;
+    }
 }
+
 
 /**
  *
@@ -106,12 +135,17 @@ EOD;
  * @return boolean
  */
 function item_update_status($db, $id, $status) {
-	$sql = <<<EOD
- UPDATE items
- SET status = {$status}, update_date = NOW()
- WHERE id = {$id}
-EOD;
-	return db_update($db, $sql);
+    $stmt = $db->prepare(
+'UPDATE items
+ SET status = ?, update_date = NOW()
+ WHERE id = ?');
+    $stmt->bindValue(1,$status,PDO::PARAM_INT);
+    $stmt->bindValue(2,$id,PDO::PARAM_STR);
+
+    return $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return false;
+    }
 }
 
 /**

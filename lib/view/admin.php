@@ -100,9 +100,10 @@
 								</tr>
 							</thead>
 							<tbody>
+
 <?php foreach ( $response['items']as $key => $item ) {?>
 								<tr
-									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ('1' !== $item['status']) ? 'disable' : '' ; ?>">
+									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ($item['status'] !== 1) ? 'disable' : '' ; ?>">
 									<td rowspan="2"><img class="w-100"
 										src="<?php echo DIR_IMG . $item['img']; ?>"></td>
 										<td><?php echo (htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'))?></td>
@@ -113,7 +114,7 @@
 											<input type="hidden" name="id"
 												value="<?php echo $item['id']; ?>"> <input
 												type="hidden" name="action" value="update_status">
-<?php if ($item['status'] === '1') { ?>
+<?php if ($item['status'] === 1) { ?>
 											<button type="submit" class="btn btn-success">公開 → 非公開にする</button>
 											<input type="hidden" name="status" value="0">
 <?php } else { ?>
@@ -124,7 +125,7 @@
 									</td>
 								</tr>
 								<tr
-									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ('1' !== $item['status']) ? 'disable' : '' ; ?>">
+									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ($item['status'] !== 1) ? 'disable' : '' ; ?>">
 									<td colspan="2">
 										<form method="post" class="form-inline">
 											<input type="hidden" name="id"

@@ -21,7 +21,6 @@ require_once DIR_MODEL . 'user.php';
 	__update($db, $response);
 
 	$response['items'] = item_list($db, false);
-
 	require_once DIR_VIEW . 'admin.php';
 }
 

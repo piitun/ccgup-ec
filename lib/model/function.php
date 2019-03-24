@@ -16,17 +16,9 @@ function db_connect() {
 	        $dsn, DB_USER, DB_PASS,
 	        array(PDO::ATTR_EMULATE_PREPARES => false,
 	               PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-	    //$db->exec("SET NAMES 'UTF8'");
 	} catch (PDOException $e) {
 	    die('db error: ' . $e->getMessage());
 	}
-
-	/*try {
-		$db = new PDO($dsn, DB_USER, DB_PASS);
-		$db->exec("SET NAMES 'UTF8'");
-	} catch (PDOException $e) {
-		die('db error: ' . $e->getMessage());
-	}*/
 
 	return $db;
 }
@@ -67,9 +59,15 @@ function db_select_one(PDO $db, $sql) {
  * @return int
  */
 function db_update(PDO $db, $sql) {
-	return $db->exec($sql);
+    try {
+        // SQL文を実行する準備
+        $stmt = $db->prepare($sql);
+        // SQLを実行
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        throw $e;
+    }
 }
-
 /**
  *
  * @param mixed $value

@@ -84,7 +84,7 @@
 							<td></td>
 							<td></td>
 							<td colspan="2">
-								<div">
+								<div>
 									<span>合計</span> <span><?php echo number_format($response['total_price']); ?>円</span>
 								</div>
 							</td>
