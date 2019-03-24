@@ -103,7 +103,7 @@
 
 <?php foreach ( $response['items']as $key => $item ) {?>
 								<tr
-									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ('1' !== $item['status']) ? 'disable' : '' ; ?>">
+									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ($item['status'] !== 1) ? 'disable' : '' ; ?>">
 									<td rowspan="2"><img class="w-100"
 										src="<?php echo DIR_IMG . $item['img']; ?>"></td>
 										<td><?php echo (htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8'))?></td>
@@ -125,7 +125,7 @@
 									</td>
 								</tr>
 								<tr
-									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ('1' !== $item['status']) ? 'disable' : '' ; ?>">
+									class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?> <?php echo ($item['status'] !== 1) ? 'disable' : '' ; ?>">
 									<td colspan="2">
 										<form method="post" class="form-inline">
 											<input type="hidden" name="id"
