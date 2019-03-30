@@ -27,53 +27,28 @@
 
 <?php require DIR_VIEW_ELEMENT . 'output_message.php'; ?>
 
-<?php if ( !empty($result)) { ?>
+<?php if ( !empty($response['history'])) { ?>
 		<div class="col-xs-12 col-md-10 offset-md-1 cart-list">
 			<div class="row">
 				<table class="table">
 					<thead>
 						<tr>
-							<th rowspan="2" style="width: 30%;"></th>
-							<th colspan="3">商品名</th>
-						</tr>
-						<tr>
-							<th>削除</th>
-							<th>価格</th>
-							<th>数量</th>
+							<th colspan="2">注文番号：<?php  echo $order_history_id ?></th>
+							<th colspan="">注文日時：<?php  echo $bought_time ?></th>
+
 						</tr>
 					</thead>
 					<tbody>
-<?php foreach ( $result as $key => $value ) {?>
+<?php foreach ( $response['history'] as $key => $value ) {?>
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
-							<td rowspan="2"><img class="w-100"
-								src="<?php echo DIR_IMG . $value['img']; ?>"></td>
-								<td colspan="3"><?php echo (htmlspecialchars($value['name'], ENT_QUOTES, 'UTF-8'))?></td>
+								<td colspan="3"><?php echo (htmlspecialchars($value['item_name'], ENT_QUOTES, 'UTF-8'))?></td>
+								<td><?php echo number_format($value['amount'])?>個</td>
+								<td><?php echo number_format($value['price'])?>円</td>
 						</tr>
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
-							<td>
-								<form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-									<button type="submit" class="btn btn-danger btn-sm">削除</button>
-									<input type="hidden" name="id"
-										value="<?php echo $value['id']; ?>"> <input
-										type="hidden" name="action" value="delete">
-								</form>
-							</td>
-							<td><?php echo number_format($value['price'])?>円</td>
-							<td>
-								<form id="form_select_amount<?php echo $value['id']; ?>"
-									action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-									<select name="amount"
-										onchange="submit_change_amount(<?php echo $value['id']; ?>)">
-<?php $max_count = 10; if ((int)$value['amount'] > $max_count){$max_count = (int)$value['amount'];}; ?>
-<?php for ($count = 1; $count <= $max_count; $count++)  { ?>
-										<option value="<?php echo $count; ?>"
-											<?php if ((int)$value['amount'] === $count){echo 'selected';}; ?>><?php echo $count;?></option>
-<?php } ?>
-                        </select> <input type="hidden" name="id"
-										value="<?php echo $value['id']; ?>"> <input
-										type="hidden" name="action" value="update">
-								</form>
-							</td>
+
+							<td>小計：<?php echo number_format($value['amount_price'])?>円</td>
+
 						</tr>
 <?php } ?>
 					</tbody>
@@ -81,9 +56,9 @@
 						<tr>
 							<td></td>
 							<td></td>
-							<td colspan="2">
+							<td colspan="5">
 								<div>
-									<span>合計</span> <span><?php echo number_format($response['total_price']); ?>円</span>
+									<span>合計</span> <span><?php echo number_format($sum); ?>円</span>
 								</div>
 							</td>
 						</tr>

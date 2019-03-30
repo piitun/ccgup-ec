@@ -39,22 +39,25 @@
 					</thead>
 					<tbody>
 <?php
-var_dump($response['history']);
-foreach ( $response['history'] as $key => $value ) {
+pre($responce['history']);
+foreach ($response['history'] as $key ) {
+    var_dump($key);
 ?>
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
-								<td colspan="3">注文番号:<?php echo $value['order_history_id']?></td>
+								<td colspan="3">注文番号:<?php echo $key['order_history_id']?></td>
 								<td>
 								<form action="./receipt.php" method="post">
-									<button type="submit" class="btn btn-danger btn-sm">領収書／購入明細書</button>
+									<button type="submit" class="btn btn-success btn-sm">領収書／購入明細書</button>
 									<input type="hidden" name="id"
-										value="<?php echo $value['order_history_id']; ?>">
+										value="<?php echo $key['order_history_id']; ?>">
+										<input type="hidden" name="time"
+										value="<?php echo $key['bought_at']; ?>">
 								</form>
 							</td>
 						</tr>
 						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
-							<td colspan="3">注文日時:<?php echo $value['bought_at']?></td>
-								<td><?php echo number_format($value['price'])?>円</td>
+							<td colspan="3">注文日時:<?php echo $key['bought_at']?></td>
+								<td><?php echo number_format($key["total_price"])?>円</td>
 						</tr>
 <?php } ?>
 					</tbody>

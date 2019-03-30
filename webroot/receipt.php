@@ -14,17 +14,30 @@ require_once DIR_MODEL . 'function.php';
     $response = array();
     $result = array();
     $db = db_connect();
+    $sum = 0;
+    $order_history_id = $_POST['id'];
+    $bought_time = $_POST['time'];
+
 
     check_logined($db);
 
-    $response['history'] = history_item($db, $_SESSION['user']['id']);
-    $result = array_keys(array_column($response['history'], 'order_history_id'),$_POST['id']);
-    //$result =  $response['history'][$keyIndex];
-    var_dump($result);
+    $response['history'] = history_item($db, $_POST['id']);
+
+
 
     if (empty($_POST['id'])) {
         $response['error_msg'] = 'リクエストが不適切です。';
         return;
+    }
+
+    if (empty($_POST['time'])) {
+        $response['error_msg'] = 'リクエストが不適切です。';
+        return;
+    }
+
+    //合計値を求める
+    foreach($response["history"] as $value){
+        $sum = $sum + $value['amount_price'];
     }
 
     require_once DIR_VIEW . 'receipt.php';
@@ -34,22 +47,17 @@ require_once DIR_MODEL . 'function.php';
  * @param PDO $db
  * @param array $response
  */
-function history_item($db, $user_id){
+function history_item($db, $order_history_id){
     $stmt = $db->prepare(
         'SELECT
-  order_histories.order_history_id,
-  order_histories.user_id,
-  order_histories.bought_at,
   log_items.item_name,
   log_items.price,
   log_items.amount,
   (price * amount) as amount_price
 FROM
-  order_histories
-  INNER JOIN log_items
-  ON order_histories.order_history_id = log_items.order_history_id
-  WHERE  order_histories.user_id = ?');
-    $stmt->bindValue(1,(int)$user_id,PDO::PARAM_INT);
+  log_items
+  WHERE  order_history_id = ?');
+    $stmt->bindValue(1,(int)$order_history_id,PDO::PARAM_INT);
     $stmt->execute();
     if ($stmt->rowCount() === 0) {
         return array();
