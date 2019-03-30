@@ -33,21 +33,26 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th colspan="2">注文番号：<?php  echo $order_history_id ?></th>
-							<th colspan="">注文日時：<?php  echo $bought_time ?></th>
+							<th colspan="4">注文番号：<?php  echo $order_history_id ?></th>
+							</tr>
+							<tr>
+							<th colspan="4" align = right>注文日時：<?php  echo $bought_time ?></th>
 
 						</tr>
 					</thead>
 					<tbody>
-<?php foreach ( $response['history'] as $key => $value ) {?>
-						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
-								<td colspan="3"><?php echo (htmlspecialchars($value['item_name'], ENT_QUOTES, 'UTF-8'))?></td>
-								<td><?php echo number_format($value['amount'])?>個</td>
-								<td><?php echo number_format($value['price'])?>円</td>
+<?php
+$index = 0;
+foreach ( $response['history'] as $key => $value ) {
+$index ++; ?>
+						<tr class="<?php echo (0 === ($index % 2)) ? 'stripe' : '' ; ?>">
+								<td colspan="2"><?php echo (htmlspecialchars($value['item_name'], ENT_QUOTES, 'UTF-8'))?></td>
+								<td align = right><?php echo number_format($value['amount'])?>個</td>
+								<td align = right><?php echo number_format($value['price'])?>円</td>
 						</tr>
-						<tr class="<?php echo (0 === ($key % 2)) ? 'stripe' : '' ; ?>">
+						<tr class="<?php echo (0 === ($index % 2)) ? 'stripe' : '' ; ?>">
 
-							<td>小計：<?php echo number_format($value['amount_price'])?>円</td>
+							<td colspan="4" align = right>小計：<?php echo number_format($value['amount_price'])?>円</td>
 
 						</tr>
 <?php } ?>
@@ -56,9 +61,9 @@
 						<tr>
 							<td></td>
 							<td></td>
-							<td colspan="5">
+							<td colspan="4" align = right>
 								<div>
-									<span>合計</span> <span><?php echo number_format($sum); ?>円</span>
+									<b><span>合計</span> <span><?php echo number_format($sum); ?>円</span></b>
 								</div>
 							</td>
 						</tr>

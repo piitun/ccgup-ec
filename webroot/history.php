@@ -17,7 +17,7 @@ require_once DIR_MODEL . 'function.php';
 
 	check_logined($db);
 
-	$response['history'] = array_reverse(history_list($db, $_SESSION['user']['id']));
+	$response['history'] = history_list($db, $_SESSION['user']['id']);
 	$rows = history_item($db, $_SESSION['user']['id']);
 
 	$histories =[];
@@ -34,7 +34,7 @@ require_once DIR_MODEL . 'function.php';
 	        $histories[$order_history_id]['total_price'] += $row['price'];
 	    }
 	}
-	$responce['history'] = $histories;
+	$response['history'] = array_reverse($histories);
 
 
 	if (empty($response['history'])) {
