@@ -28,10 +28,10 @@ require_once DIR_MODEL . 'function.php';
 	        $histories[$order_history_id] = [
 	            'order_history_id' => $row['order_history_id'],
 	            'bought_at' => $row['bought_at'],
-	            'total_price' => $row['price'],
+	            'total_price' => $row['amount_price'],
 	        ];
 	    }else{
-	        $histories[$order_history_id]['total_price'] += $row['price'];
+	        $histories[$order_history_id]['total_price'] += $row['amount_price'];
 	    }
 	}
 	$response['history'] = array_reverse($histories);

@@ -15,22 +15,22 @@ require_once DIR_MODEL . 'function.php';
     $result = array();
     $db = db_connect();
     $sum = 0;
-    $order_history_id = $_POST['id'];
-    $bought_time = $_POST['time'];
+    $order_history_id = $_GET['id'];
+    $bought_time = $_GET['time'];
 
 
     check_logined($db);
 
-    $response['history'] = history_item($db, $_POST['id']);
+    $response['history'] = history_item($db, $_GET['id']);
 
 
 
-    if (empty($_POST['id'])) {
+    if (empty($_GET['id'])) {
         $response['error_msg'] = 'リクエストが不適切です。';
         return;
     }
 
-    if (empty($_POST['time'])) {
+    if (empty($_GET['time'])) {
         $response['error_msg'] = 'リクエストが不適切です。';
         return;
     }

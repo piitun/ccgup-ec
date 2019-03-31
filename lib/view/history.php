@@ -46,7 +46,7 @@ $index ++;
 						<tr class="<?php echo (0 === ($index % 2)) ? 'stripe' : '' ; ?>">
 								<td colspan="2">注文番号:<?php echo $key['order_history_id']?></td>
 								<td colspan="2" align = right>
-								<form action="./receipt.php" method="post">
+								<form action="./receipt.php" method="get">
 									<button type="submit" class="btn btn-success btn-sm">領収書／購入明細書</button>
 									<input type="hidden" name="id"
 										value="<?php echo $key['order_history_id']; ?>">
