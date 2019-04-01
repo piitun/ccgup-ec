@@ -22,9 +22,9 @@ function item_regist($db, $name, $img, $price, $stock, $status) {
 
     $stmt->bindValue(1,$name,PDO::PARAM_STR);
     $stmt->bindValue(2,$img,PDO::PARAM_STR);
-    $stmt->bindValue(3,$price,PDO::PARAM_INT);
-    $stmt->bindValue(4,$stock,PDO::PARAM_INT);
-    $stmt->bindValue(5,$status,PDO::PARAM_INT);
+    $stmt->bindValue(3,(int)$price,PDO::PARAM_INT);
+    $stmt->bindValue(4,(int)$stock,PDO::PARAM_INT);
+    $stmt->bindValue(5,(int)$status,PDO::PARAM_INT);
 
     return $stmt->execute();
     if ($stmt->rowCount() === 0) {
@@ -45,7 +45,7 @@ function item_delete($db, $id) {
 	}
 	$stmt = $db->prepare(
 	'DELETE FROM items WHERE id = ?');
-	$stmt->bindValue(1,$id,PDO::PARAM_STR);
+	$stmt->bindValue(1,(int)$id,PDO::PARAM_INT);
 
 	return $stmt->execute();
 	if ($stmt->rowCount() === 0) {
@@ -77,13 +77,19 @@ EOD;
  * @return NULL|mixed
  */
 function item_get($db, $id) {
-	$sql = <<<EOD
- SELECT id, name, price, img, stock, status, create_date, update_date
+    $stmt = $db->prepare('SELECT id, name, price, img, stock, status, create_date, update_date
  FROM items
- WHERE id = {$id}
-EOD;
-
-	return db_select_one($db, $sql);
+ WHERE id = ?');
+    $stmt->bindValue(1,(int)$id,PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() === 0) {
+        return array();
+    }
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (empty($rows)) {
+        return null;
+    }
+    return $rows;
 }
 
 /**
@@ -97,8 +103,8 @@ function item_update_stock($db, $id, $stock) {
  'UPDATE items
  SET stock = ?, update_date = NOW()
  WHERE id = ?');
-    $stmt->bindValue(1,$stock,PDO::PARAM_STR);
-    $stmt->bindValue(2,$id,PDO::PARAM_STR);
+    $stmt->bindValue(1,(int)$stock,PDO::PARAM_INT);
+    $stmt->bindValue(2,(int)$id,PDO::PARAM_INT);
 
     return $stmt->execute();
     if ($stmt->rowCount() === 0) {
@@ -118,8 +124,8 @@ function item_update_saled($db, $id, $amount) {
  'UPDATE items
  SET stock = stock - ?, update_date = NOW()
  WHERE id = ?');
-    $stmt->bindValue(1,$amount,PDO::PARAM_STR);
-    $stmt->bindValue(2,$id,PDO::PARAM_STR);
+    $stmt->bindValue(1,(int)$amount,PDO::PARAM_INT);
+    $stmt->bindValue(2,(int)$id,PDO::PARAM_INT);
 
     return $stmt->execute();
     if ($stmt->rowCount() === 0) {
@@ -139,8 +145,8 @@ function item_update_status($db, $id, $status) {
 'UPDATE items
  SET status = ?, update_date = NOW()
  WHERE id = ?');
-    $stmt->bindValue(1,$status,PDO::PARAM_INT);
-    $stmt->bindValue(2,$id,PDO::PARAM_STR);
+    $stmt->bindValue(1,(int)$status,PDO::PARAM_INT);
+    $stmt->bindValue(2,(int)$id,PDO::PARAM_INT);
 
     return $stmt->execute();
     if ($stmt->rowCount() === 0) {
