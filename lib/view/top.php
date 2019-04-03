@@ -14,6 +14,7 @@
 <link href="./assets/bootstrap/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="./assets/css/common.css">
 
 </head>
 <body>
@@ -52,7 +53,7 @@
 <?php } ?>
 </div>
 
-<div class="page_link text-center col-12">
+<div class="pagelink text-center col-12">
 <?php echo '全'. $item_count. '件'. '　'; // 全データ数の表示です。
 
 if($page > 1){ // リンクをつけるかの判定
