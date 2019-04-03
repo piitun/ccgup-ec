@@ -50,8 +50,9 @@
 				</div>
 			</div>
 <?php } ?>
+</div>
 
-<div class="pagelink">
+<div class="page_link text-center col-12">
 <?php echo '全'. $item_count. '件'. '　'; // 全データ数の表示です。
 
 if($page > 1){ // リンクをつけるかの判定
@@ -73,6 +74,7 @@ if($page < $max_page){ // リンクをつけるかの判定
 </div>
 		</div>
 	</div>
+
 	<!-- /.container -->
 	<script src="./assets/js/jquery/1.12.4/jquery.min.js"></script>
 	<script src="./assets/bootstrap/dist/js/bootstrap.min.js"></script>
