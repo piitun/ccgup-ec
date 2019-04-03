@@ -58,18 +58,36 @@ function item_delete($db, $id) {
  * @param PDO $db
  * @return array
  */
+function top_item_list($db,$page_id,$max){
+    $stmt = $db->prepare(
+ 'SELECT id, name, price, img, stock, status, create_date, update_date
+ FROM items WHERE status = 1 LIMIT ?,?');
+
+    $stmt->bindValue(1,(int)$page_id, PDO::PARAM_INT);
+	$stmt->bindValue(2,(int)$max, PDO::PARAM_INT);
+	$stmt->execute();
+	if ($stmt->rowCount() === 0) {
+	    return array();
+	}
+	$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	if (empty($rows)) {
+	    return null;
+	}
+	return $rows;
+
+}
+
 function item_list($db, $is_active_only = true) {
-	$sql = <<<EOD
+    $sql = <<<EOD
  SELECT id, name, price, img, stock, status, create_date, update_date
  FROM items
 EOD;
-
-	if ($is_active_only) {
-		$sql .= " WHERE status = 1";
-	}
-
-	return db_select($db, $sql);
+    if ($is_active_only) {
+        $sql .= " WHERE status = 1";
+    }
+    return db_select($db, $sql);
 }
+
 
 /**
  * @param PDO $db

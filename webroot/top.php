@@ -16,9 +16,25 @@ require_once DIR_MODEL . 'item.php';
 
 	$db = db_connect();
 	$response = array();
+	$max = 9;
 
 	__regist($db, $response);
-	$response['items'] = item_list($db);
+
+	if(empty($_GET['page'])){
+	    $page = 1;
+	}else{
+	    $page = $_GET['page'];
+	}
+
+	$page_id = ($page-1)*$max;
+
+	if($page_id < 0){
+	    $page_id = 0;
+	}
+
+	$response['items'] = top_item_list($db, $page_id,$max);
+	$item_count = count(item_list($db));
+	$max_page = ceil($item_count/ $max);
 
 	require_once DIR_VIEW  . 'top.php';
 }
