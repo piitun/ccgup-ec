@@ -14,6 +14,7 @@
 <link href="./assets/bootstrap/dist/css/bootstrap.min.css"
 	rel="stylesheet">
 <link rel="stylesheet" href="./assets/css/style.css">
+<link rel="stylesheet" href="./assets/css/common.css">
 
 </head>
 <body>
@@ -50,8 +51,31 @@
 				</div>
 			</div>
 <?php } ?>
+</div>
+
+<div class="pagelink text-center col-12">
+<?php echo '全'. $item_count. '件'. '　'; // 全データ数の表示です。
+
+if($page > 1){ // リンクをつけるかの判定
+    echo '<a href=\'/top.php?page='.($page -1).'\')>前へ</a>'. '　';
+}
+
+for($i = 1; $i <= $max_page; $i++){
+    if ($i == $page) {
+        echo $page. '　';
+    } else {
+        echo '<a href=\'/top.php?page='. $i. '\')>'. $i. '</a>'. '　';
+    }
+}
+
+if($page < $max_page){ // リンクをつけるかの判定
+    echo '<a href=\'/top.php?page='.($page + 1).'\')>次へ</a>'. '　';
+}
+?>
+</div>
 		</div>
 	</div>
+
 	<!-- /.container -->
 	<script src="./assets/js/jquery/1.12.4/jquery.min.js"></script>
 	<script src="./assets/bootstrap/dist/js/bootstrap.min.js"></script>
